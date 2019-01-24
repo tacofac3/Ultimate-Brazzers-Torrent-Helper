@@ -49,7 +49,8 @@ function main() {
             $(this).html(imageTag);
         }
         else if (origin.text().includes('pixsense.net')) {
-        	url = url.replace('pixsense','imgfile')
+            url = url.replace('pixsense','imgfile')
+            // url = url.replace('https','http')
         	console.log(url)
         	$.ajax({
 			    url  : url,
@@ -57,7 +58,8 @@ function main() {
 			    success : function(data, statusText, xhr){
 			        var status = Number(xhr.status)
 			        console.log('Status code: '+status)
-			        url = $(data).find('.big_img_box').children('img').attr('src')
+                    url = $(data).find('.big_img_box').children('img').attr('src')
+                    url = url.replace('http://','https://')
 		        	var imageTag='<div style="position:relative;">'+'<img src="'+url+'" alt="'+url+'" height="300" />'+'</div>';
             		console.log(imageTag)
             		console.log($(this))
