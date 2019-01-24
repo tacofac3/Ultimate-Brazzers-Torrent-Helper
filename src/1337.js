@@ -40,11 +40,49 @@ function main() {
     
     $(".js-modal-url").mouseenter(function(){
         old = $(this).html()
+        var origin = $(this)
         var url = $(this).attr('href')
         if (url.search('jpeg.html')!== -1) {
-            url = url.replace('.html','').replace('a-i','').replace('b-i','')
-            var imageTag='<div style="position:relative;">'+'<img src="'+url+'" alt="image" height="300" />'+'</div>';
+            url = url.replace('.html','').replace('a-i','').replace('b-i','').replace('ia-','')
+            var imageTag='<div style="position:relative;">'+'<img src="'+url+'" alt="'+url+'" height="300" />'+'</div>';
+            console.log(imageTag)
             $(this).html(imageTag);
+        }
+        else if (origin.text().includes('pixsense.net')) {
+        	url = url.replace('pixsense','imgfile')
+        	console.log(url)
+        	$.ajax({
+			    url  : url,
+			    type : 'get',
+			    success : function(data, statusText, xhr){
+			        var status = Number(xhr.status)
+			        console.log('Status code: '+status)
+			        url = $(data).find('.big_img_box').children('img').attr('src')
+		        	var imageTag='<div style="position:relative;">'+'<img src="'+url+'" alt="'+url+'" height="300" />'+'</div>';
+            		console.log(imageTag)
+            		console.log($(this))
+            		origin.html(imageTag);
+			    },
+			    error: function(jqXHR, exception){
+			    	var msg = '';
+			        if (jqXHR.status === 0) {
+			            msg = 'Please allow unsafe scripts to run';
+			        } else if (jqXHR.status == 404) {
+			            msg = 'Requested page not found. [404]';
+			        } else if (jqXHR.status == 500) {
+			            msg = 'Internal Server Error [500].';
+			        } else if (exception === 'parsererror') {
+			            msg = 'Requested JSON parse failed.';
+			        } else if (exception === 'timeout') {
+			            msg = 'Time out error.';
+			        } else if (exception === 'abort') {
+			            msg = 'Ajax request aborted.';
+			        } else {
+			            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			        }
+			        alert(msg)
+		        }
+		    });
         }
     });
     $(".js-modal-url").mouseleave(function(){
