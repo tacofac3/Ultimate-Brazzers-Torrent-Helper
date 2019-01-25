@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Ultimate Brazzers torrent helper",
-    "version": "1.1",
+    "version": "2.0",
     "description": "Adds a handy torrent downloading page link to any video on \"www.brazzers.com\" and replaces image links in the description of 1337x site with the actal image on hover (only few supported, will add more asap).",
     "icons": {
         "16": "icon-16.png",
@@ -9,11 +9,14 @@
         "128": "icon-128.png"
     },
     "browser_action": {
-        "default_icon": "icon-48.png"
+        "default_icon": "icon-48.png",
+        "default_title": "Ultimate Brazzers torrent helper",
+        "default_popup": "popup.html"
     },
     "permissions": [
         "http://*/",
-        "https://*/"
+        "https://*/",
+        "storage"
     ],
     "content_scripts": [{
             "matches": [
